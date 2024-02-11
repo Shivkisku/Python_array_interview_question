@@ -1,48 +1,26 @@
-#Given a circular array of size n, find the maximum subarray sum of the non-empty subarray.
+def maxCircularSum(arr, n):
+    if n == 1:
+        return arr[0]
 
+    total_sum = sum(arr)
+    max_sum = arr[0]
+    current_max = arr[0]
+    min_sum = arr[0]
+    current_min = arr[0]
 
-# Python program for maximum contiguous circular sum problem
+    for i in range(1, n):
+        current_max = max(current_max + arr[i], arr[i])
+        max_sum = max(max_sum, current_max)
 
-# The function returns maximum
-# circular contiguous sum in a[]
-def maxCircularSum(a, n):
-	
-	# Corner Case
-	if (n == 1):
-		return a[0]
+        current_min = min(current_min + arr[i], arr[i])
+        min_sum = min(min_sum, current_min)
 
-	# Initialize sum variable which 
-	# store total sum of the array.
-	sum = 0
-	for i in range(n):
-		sum += a[i]
+    if min_sum == total_sum:
+        return max_sum
 
-	# Initialize every variable 
-	# with first value of array.
-	curr_max = a[0]
-	max_so_far = a[0]
-	curr_min = a[0]
-	min_so_far = a[0]
+    return max(max_sum, total_sum - min_sum)
 
-	# Concept of Kadane's Algorithm
-	for i in range(1, n):
-	
-		# Kadane's Algorithm to find Maximum subarray sum.
-		curr_max = max(curr_max + a[i], a[i])
-		max_so_far = max(max_so_far, curr_max)
-
-		# Kadane's Algorithm to find Minimum subarray sum.
-		curr_min = min(curr_min + a[i], a[i])
-		min_so_far = min(min_so_far, curr_min)
-	if (min_so_far == sum):
-		return max_so_far
-
-	# returning the maximum value
-	return max(max_so_far, sum - min_so_far)
-
-# Driver code
-a = [11, 10, -20, 5, -3, -5, 8, -13, 10]
-n = len(a)
-print("Maximum circular sum is", maxCircularSum(a, n))
-
-# This code is contributes by subhammahato348
+# Example usage:
+arr = [11, 10, -20, 5, -3, -5, 8, -13, 10]
+n = len(arr)
+print("Maximum circular sum is", maxCircularSum(arr, n))
